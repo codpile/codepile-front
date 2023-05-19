@@ -1,0 +1,51 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 90vh;
+  height: auto;
+
+  &__nav {
+    padding: 2rem 4rem;
+
+    &__list {
+      list-style: none;
+
+      &__link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+
+        color: inherit;
+        // background-color: blue;
+        margin: 0.4rem 0rem;
+        padding: 1.6rem 0rem;
+
+        // &--icon{
+        // }
+        &--text {
+          margin-left: 2rem;
+          margin-top: -0.6rem;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    padding: 2rem 4rem;
+    position: relative;
+
+    &::before {
+      content: "";
+      height: 0.1rem;
+      position: absolute;
+      top: 0rem;
+      left: 0rem;
+      right: 0rem;
+      //   background-image: linear-gradient(to right, var(--color-grey-dark-2));
+      background-color: var(--color-grey-dark-2);
+    }
+  }
+}

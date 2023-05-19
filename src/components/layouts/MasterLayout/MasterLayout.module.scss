@@ -1,0 +1,8 @@
+.master-layout {
+  min-height: 100vh;
+  height: auto;
+
+  &__sidebar-main {
+    display: flex;
+  }
+}

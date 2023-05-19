@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  height: 100%;
+
+  &__logo-container {
+    display: flex;
+    align-items: center;
+
+    &__logo {
+      margin-left: 2rem;
+      margin-top: -0.6rem;
+    }
+  }
+
+  &__person-container {
+    background-color: green;
+
+    &__logout-icon {
+      margin-left: 2rem;
+    }
+  }
+}
