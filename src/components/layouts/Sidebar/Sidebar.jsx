@@ -8,6 +8,7 @@ import { RiGroupLine } from "react-icons/ri";
 import { AiOutlineHistory } from "react-icons/ai";
 
 export const Sidebar = () => {
+  // TODO: Add actions for links
   return (
     <Fragment>
       <aside className={styles["sidebar"]}>
