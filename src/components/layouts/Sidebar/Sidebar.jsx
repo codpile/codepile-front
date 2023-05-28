@@ -9,6 +9,7 @@ import { AiOutlineHistory } from "react-icons/ai";
 
 export const Sidebar = () => {
   // TODO: Add actions for links
+  // TODO: create backend API
   return (
     <Fragment>
       <aside className={styles["sidebar"]}>
