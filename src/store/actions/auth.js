@@ -9,14 +9,8 @@ export const logOut = () => {
   };
 };
 
-const saveDataToStorage = (user, token) => {
-  localStorage.setItem(
-    "auth",
-    JSON.stringify({
-      token: token,
-      user: user,
-    })
-  );
+const saveDataToStorage = (auth) => {
+  localStorage.setItem("auth", JSON.stringify(auth));
 };
 
 export const authenticate = (user, token) => {
@@ -62,7 +56,7 @@ export const login = (email, password) => {
         user: data.user,
       })
     );
-    saveDataToStorage(data.user, data.token);
+    saveDataToStorage(data);
   };
 };
 
@@ -111,7 +105,7 @@ export const signup = (userName, email, password) => {
         user: data.user,
       })
     );
-    saveDataToStorage(data.user, data.token);
+    saveDataToStorage(data);
   };
 };
 
@@ -190,7 +184,7 @@ export const resetPassword = (password, passwordResetToken) => {
         user: data.user,
       })
     );
-    saveDataToStorage(data.user, data.token);
+    saveDataToStorage(data);
   };
 };
 
