@@ -17,10 +17,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Header.css";
+import { logOut } from "../../../store/actions/auth";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 
-// funcion to handle opening of sidebar
+// function to handle opening of sidebar
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -54,6 +56,14 @@ const Header = (props) => {
       setIsMediumScreen(true);
     }
   }, [windowWidth]);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logOutHandler = async () => {
+    await dispatch(logOut());
+    navigate("/login", { replace: true });
+  };
 
   return (
     <AppBar
@@ -92,7 +102,7 @@ const Header = (props) => {
             </Typography>
           )}
         </IconButton>
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={logOutHandler}>
           <PowerSettingsNewIcon style={{ color: "#212529" }} />
         </IconButton>
       </Toolbar>
