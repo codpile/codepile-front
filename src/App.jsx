@@ -11,6 +11,8 @@ import { Login } from "./pages/Login/Login";
 import { Notification } from "./components/UI/Notification/Notification";
 import { hideCardNotification } from "./store/actions/notification";
 
+// TODO: to be added as the primary color #ae3ec9
+
 function App() {
   const auth = useSelector((state) => state.auth);
   const isLoggedIn = auth.isLoggedIn;
