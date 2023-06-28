@@ -35,7 +35,7 @@ export const login = (email, password) => {
 
     if (!response.ok) {
       const error = await response.json();
-      dispatch(
+      await dispatch(
         notificationActions.showCardNotification({
           type: "error",
           message: error.message,
@@ -48,8 +48,16 @@ export const login = (email, password) => {
     }
 
     const data = await response.json();
+    await dispatch(
+      notificationActions.showCardNotification({
+        type: "success",
+        message: "Log in successful",
+      })
+    );
+    setTimeout(() => {
+      dispatch(notificationActions.hideCardNotification());
+    }, [5000]);
 
-    // get the expiry time  // to be done later
     await dispatch(
       authActions.authenticate({
         token: data.token,

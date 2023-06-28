@@ -7,6 +7,7 @@ import "./App.scss";
 import { Home } from "./Pages/Home/Home";
 import { Predict } from "./pages/Predict/Predict";
 import { Signup } from "./pages/Signup/Signup";
+import { Login } from "./pages/Login/Login";
 import { Notification } from "./components/UI/Notification/Notification";
 import { hideCardNotification } from "./store/actions/notification";
 
@@ -47,7 +48,7 @@ function App() {
         return <Navigate to="/" />;
       }
 
-      await dispatch(authenticate(parsedAuthData));
+      await dispatch(authenticate(user, token));
     };
     tryLogin();
   }, [dispatch]);
@@ -77,8 +78,27 @@ function App() {
       ),
     },
     {
+      path: "/login",
+      element: (
+        <div>
+          {notification.showCardNotification && (
+            <Notification
+              type={notification.cardNotificationType}
+              message={notification.cardMessage}
+              onClose={closeCardHandler}
+            />
+          )}
+          <Login />
+        </div>
+      ),
+    },
+    {
       path: "/register",
       element: <Navigate to="/signup" />,
+    },
+    {
+      path: "/signin",
+      element: <Navigate to="/login" />,
     },
     {
       path: "*",
@@ -97,7 +117,7 @@ function App() {
     },
     {
       path: "*",
-      element: <Navigate to="/" />,
+      element: <Navigate to="/predict" />,
     },
   ]);
 

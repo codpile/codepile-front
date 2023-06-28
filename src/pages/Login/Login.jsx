@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,81 +11,78 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Alert from "@mui/material/Alert";
+import { Card, CardContent, CardActions } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Alert from "@mui/material/Alert";
-import { Auth } from "../../utils/auth";
-import Footer from "../../components/layouts/Footer/Footer";
-import "./Login.css";
+import "./login.css";
+import { login } from "../../store/actions/auth";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useLoggedIn, useUpdateLoggedIn } from "../../context/AuthContext";
 
-export default function Login() {
+import Footer from "../../components/layouts/Footer/Footer";
+
+export const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-  const isLoggedIn = useLoggedIn();
-  const updateLoggedIn = useUpdateLoggedIn(false);
-
-  // validating form errors
   const validate = () => {
-    let errs = {};
+    let errors = {};
     if (!formData.email.trim()) {
-      errs.email = "Email is required";
+      errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errs.email = "Invalid email address";
+      errors.email = "Invalid email address";
     }
-    if (!formData.password.trim()) {
-      errs.password = "Password is required";
+    if (!formData.password.trim() || formData.password.length <= 5) {
+      errors.password = "Password must be greater than 5 characters";
     }
-    return errs;
+    return errors;
   };
 
-  //  Handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const clearFormData = () => {
+    setFormData({
+      email: "",
+      password: "",
+    });
+  };
 
+  // validating  error here
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
       return;
     }
-    const user = new Auth();
-    const isAuthenticated = user.authenticate(
-      formData.email,
-      formData.password
-    );
-    const err = user.errors;
 
-    if (!isAuthenticated) {
-      if (err.email) {
-        setErrors({ email: err.email });
-      }
-      if (err.password) {
-        setErrors({ password: err.password });
-      }
-      return;
+    try {
+      setIsLoading(true);
+      await dispatch(login(formData.email, formData.password));
+      setIsLoading(false);
+      clearFormData();
+      navigate("/predict", { replace: true });
+    } catch (error) {
+      setIsLoading(false);
     }
-
-    updateLoggedIn(true);
-    navigate("/", { replace: true });
   };
 
-  // handle input onchange event
+  // handle from on change event
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
   return (
-    <Container component="main" maxWidth="xs" className="login">
+    <Container component="main" maxWidth="xs" className="register">
       <CssBaseline />
-      <AppBar className="login-nav">
+      <AppBar className="register-nav">
         <Toolbar
           style={{
             display: "flex",
@@ -98,7 +95,7 @@ export default function Login() {
             variant="h6"
             style={{ fontWeight: "bold", fontSize: "24px" }}
           >
-            DSC_UCU
+            CodePile
           </Typography>
           <div>
             <Link
@@ -116,7 +113,6 @@ export default function Login() {
         </Toolbar>
       </AppBar>
       <Box
-        height="100vh"
         sx={{
           marginTop: 0,
           display: "flex",
@@ -129,9 +125,14 @@ export default function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          LogIn
+          Log In
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{ mt: 1, fontSize: 16 }}
+        >
           <TextField
             margin="normal"
             required
@@ -164,21 +165,22 @@ export default function Login() {
             type="submit"
             fullWidth
             variant="contained"
+            disabled={isLoading}
             sx={{ mt: 3, mb: 2, height: 48 }}
           >
-            LogIn
+            Log In
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/signup" variant="body2">
+                {"Don't have an account? sign up"}
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
-      {/* footer */}
+
       <Footer />
     </Container>
   );
-}
+};
