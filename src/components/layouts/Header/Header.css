@@ -1,0 +1,9 @@
+.logged-in-user {
+  margin-left: 4px;
+}
+
+@media screen and(max-width:650px) {
+  .logged-in-user {
+    display: none;
+  }
+}

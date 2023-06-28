@@ -1,22 +1,45 @@
-import React, { Fragment } from "react";
-import { Header } from "../Header/Header";
-import { Sidebar } from "../Sidebar/Sidebar";
-import styles from "./MasterLayout.module.scss";
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Header from "../Header/Header";
+import Sidebar from "../Sidebar/Sidebar";
+import Footer from "../Footer/Footer";
 
 export const MasterLayout = (props) => {
   return (
-    <Fragment>
-      <div className={styles["master-layout"]}>
-        <div className={styles["master-layout__header"]}>
-          <Header />
-        </div>
-        <div className={styles["master-layout__sidebar-main"]}>
-          <Sidebar />
-          <main className={styles["master-layout__sidebar-main__main"]}>
-            {props.children}
-          </main>
-        </div>
-      </div>
-    </Fragment>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <Header title={props.title} />
+      <Sidebar />
+
+      {/* main Content start*/}
+      <Box
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+          pt: 12,
+        }}
+      >
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {props.children}
+        </Box>
+        <Toolbar />
+        <Footer />
+      </Box>
+      {/* main Content end*/}
+    </Box>
   );
 };

@@ -1,88 +1,95 @@
-import React, { Fragment } from "react";
-import styles from "./Sidebar.module.scss";
-import { NavLink } from "react-router-dom";
-import { IconContext } from "react-icons";
-import { BsPersonPlus } from "react-icons/bs";
-import { MdOutlineOnlinePrediction } from "react-icons/md";
-import { RiGroupLine } from "react-icons/ri";
-import { AiOutlineHistory } from "react-icons/ai";
+import React, { useState, useEffect } from "react";
+import { styled } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import MuiDrawer from "@mui/material/Drawer";
 
-export const Sidebar = () => {
-  // TODO: Add actions for links
-  // TODO: create backend API
+import {
+  mainListItems,
+  secondaryListItems,
+} from "../SidebarLinks/SidebarLinks";
+
+import {
+  useOpenSidebar,
+  useToggleSidebar,
+} from "../../../context/SidebarContext";
+
+const drawerWidth = 240;
+
+// close sidebar
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "hidden",
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
+
+const Sidebar = () => {
+  const open = useOpenSidebar();
+  const toggleSidebar = useToggleSidebar();
+
   return (
-    <Fragment>
-      <aside className={styles["sidebar"]}>
-        <nav className={styles["sidebar__nav"]}>
-          <li className={styles["sidebar__nav__list"]}>
-            <NavLink to="#" className={styles["sidebar__nav__list__link"]}>
-              <span className={styles["sidebar__nav__list__link--icon"]}>
-                <IconContext.Provider
-                  value={{
-                    size: "2rem",
-                  }}
-                >
-                  <BsPersonPlus />
-                </IconContext.Provider>
-              </span>
-              <span className={styles["sidebar__nav__list__link--text"]}>
-                Add student
-              </span>
-            </NavLink>
-          </li>
-          <li className={styles["sidebar__nav__list"]}>
-            <NavLink to="#" className={styles["sidebar__nav__list__link"]}>
-              <span className={styles["sidebar__nav__list__link--icon"]}>
-                <IconContext.Provider
-                  value={{
-                    size: "2rem",
-                  }}
-                >
-                  <MdOutlineOnlinePrediction />
-                </IconContext.Provider>
-              </span>
-              <span className={styles["sidebar__nav__list__link--text"]}>
-                Predict
-              </span>
-            </NavLink>
-          </li>
-          <li className={styles["sidebar__nav__list"]}>
-            <NavLink to="#" className={styles["sidebar__nav__list__link"]}>
-              <span className={styles["sidebar__nav__list__link--icon"]}>
-                <IconContext.Provider
-                  value={{
-                    size: "2rem",
-                  }}
-                >
-                  <RiGroupLine />
-                </IconContext.Provider>
-              </span>
-              <span className={styles["sidebar__nav__list__link--text"]}>
-                Students
-              </span>
-            </NavLink>
-          </li>
-          <li className={styles["sidebar__nav__list"]}>
-            <NavLink to="#" className={styles["sidebar__nav__list__link"]}>
-              <span className={styles["sidebar__nav__list__link--icon"]}>
-                <IconContext.Provider
-                  value={{
-                    size: "2rem",
-                  }}
-                >
-                  <AiOutlineHistory />
-                </IconContext.Provider>
-              </span>
-              <span className={styles["sidebar__nav__list__link--text"]}>
-                Activity
-              </span>
-            </NavLink>
-          </li>
-        </nav>
-        <footer className={styles["sidebar__footer"]}>
-          &copy; CodePile {new Date().getFullYear()}
-        </footer>
-      </aside>
-    </Fragment>
+    <Drawer variant="permanent" open={open}>
+      <Box
+        style={{
+          backgroundColor: "hsl(240, 40%, 50%)",
+          color: "#f1f3f5",
+          height: "100%",
+        }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            px: [1],
+          }}
+          // style={{ backgroundColor: "hsl(240, 80%, 30%)" }}
+        >
+          <Typography
+            variant="h5"
+            style={{ marginLeft: "45px", backgroundColor: "" }}
+          >
+            CodePile
+          </Typography>
+          <IconButton onClick={toggleSidebar}>
+            <ChevronLeftIcon style={{ color: "#f1f3f5" }} />
+          </IconButton>
+        </Toolbar>
+        <Divider />
+        <List component="nav">
+          {mainListItems}
+          <Divider sx={{ my: 1 }} />
+          {/* Admin only links */}
+          {secondaryListItems}
+        </List>
+      </Box>
+    </Drawer>
   );
 };
+
+export default Sidebar;
