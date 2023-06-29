@@ -10,6 +10,9 @@ export const studentSlice = createSlice({
     update(state, action) {
       state.students = action.payload.students;
     },
+    addStudent(state, action) {
+      state.students = state.students.push(action.payload.student);
+    },
   },
 });
 

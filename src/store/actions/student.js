@@ -3,19 +3,20 @@ import { notificationActions } from "..";
 import { studentActions } from "..";
 
 export const addStudent = ({
-  addById,
+  addedById,
   firstName,
   lastName,
   gender,
   age,
   district,
   region,
+  token,
 }) => {
   return async (dispatch) => {
     const response = await fetch(`${url}/api/students/add-student`, {
       method: "POST",
       body: JSON.stringify({
-        addById,
+        addedById,
         firstName,
         lastName,
         gender,
@@ -25,6 +26,7 @@ export const addStudent = ({
       }),
       headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -44,12 +46,16 @@ export const addStudent = ({
 
     const data = await response.json();
 
+    await dispatch(studentActions.addStudent({ student: data.data }));
     await dispatch(
-      authActions.authenticate({
-        token: data.token,
-        user: data.user,
+      notificationActions.showCardNotification({
+        type: "success",
+        message: data.message,
       })
     );
+    setTimeout(() => {
+      dispatch(notificationActions.hideCardNotification());
+    }, [5000]);
     saveDataToStorage(data);
   };
 };

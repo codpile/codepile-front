@@ -8,10 +8,9 @@ import { Home } from "./Pages/Home/Home";
 import { Predict } from "./pages/Predict/Predict";
 import { Signup } from "./pages/Signup/Signup";
 import { Login } from "./pages/Login/Login";
+import { AddStudent } from "./pages/AddStudent/AddStudent";
 import { Notification } from "./components/UI/Notification/Notification";
 import { hideCardNotification } from "./store/actions/notification";
-
-// TODO: to be added as the primary color #ae3ec9
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -118,9 +117,24 @@ function App() {
       element: <Predict />,
     },
     {
-      path: "*",
-      element: <Navigate to="/predict" />,
+      path: "/add-student",
+      element: (
+        <div>
+          {notification.showCardNotification && (
+            <Notification
+              type={notification.cardNotificationType}
+              message={notification.cardMessage}
+              onClose={closeCardHandler}
+            />
+          )}
+          <AddStudent />
+        </div>
+      ),
     },
+    // {
+    //   path: "*",
+    //   element: <Navigate to="/predict" />,
+    // },
   ]);
 
   return (

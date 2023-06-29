@@ -24,7 +24,7 @@ export const mainListItems = (
       <ListItemIcon>
         <PersonAddOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="/" className="sidebar-link">
+      <Link to="add-student" className="sidebar-link">
         Add student
       </Link>
     </ListItemButton>

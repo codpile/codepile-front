@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { MasterLayout } from "../../components/layouts/MasterLayout/MasterLayout";
 
-import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,8 +19,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useSelector, useDispatch } from "react-redux";
 import "./AddStudent.scss";
-// import { addStudent } from "../../store/actions/student";
-import { useDispatch } from "react-redux";
+import { addStudent } from "../../store/actions/student";
 import { useNavigate } from "react-router-dom";
 
 export const AddStudent = () => {
@@ -82,15 +80,12 @@ export const AddStudent = () => {
       setErrors(validationErrors);
       return;
     }
-    const addedById = auth.user.userId;
-    console.log("addedById");
-    console.log(addedById);
-
     formData.addedById = auth.user.userId;
+    formData.token = auth.token;
 
     try {
       setIsLoading(true);
-      await dispatch(signup(formData));
+      await dispatch(addStudent(formData));
       setIsLoading(false);
       clearFormData();
     } catch (error) {
@@ -116,9 +111,6 @@ export const AddStudent = () => {
             paddingTop: 8,
           }}
         >
-          {/* <Avatar sx={{ m: 1, mt: 3, bgcolor: "primary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar> */}
           <Typography component="h1" variant="h5">
             Add student
           </Typography>
@@ -181,6 +173,7 @@ export const AddStudent = () => {
               name="age"
               autoComplete="age"
               autoFocus
+              type="number"
               onChange={handleChange}
             />
             {errors.age && <Alert severity="error">{errors.age}</Alert>}
