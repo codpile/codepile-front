@@ -56,7 +56,7 @@ const Sidebar = () => {
     <Drawer variant="permanent" open={open}>
       <Box
         style={{
-          backgroundColor: "hsl(240, 40%, 50%)",
+          backgroundColor: "rgb(134,46,156)",
           color: "#f1f3f5",
           height: "100%",
         }}
