@@ -121,7 +121,7 @@ export const Login = () => {
           paddingTop: 8,
         }}
       >
-        <Avatar sx={{ m: 1, mt: 3, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, mt: 3, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">

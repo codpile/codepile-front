@@ -137,7 +137,7 @@ export const Signup = () => {
           paddingTop: 8,
         }}
       >
-        <Avatar sx={{ m: 1, mt: 3, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, mt: 3, bgcolor: "primary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -155,7 +155,7 @@ export const Signup = () => {
             required
             fullWidth
             id="userName"
-            label="userName"
+            label="Username"
             name="userName"
             autoComplete="userName"
             autoFocus
@@ -170,7 +170,7 @@ export const Signup = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
             autoComplete="email"
             autoFocus
