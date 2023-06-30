@@ -40,7 +40,7 @@ export const mainListItems = (
       <ListItemIcon>
         <PeopleAltOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="update-profile" className="sidebar-link">
+      <Link to="/students" className="sidebar-link">
         Students
       </Link>
     </ListItemButton>

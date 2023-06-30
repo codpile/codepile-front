@@ -109,6 +109,8 @@ export const AddStudent = () => {
             flexDirection: "column",
             alignItems: "center",
             paddingTop: 8,
+            minHeight: "70vh",
+            maxWidth: "280px",
           }}
         >
           <Typography component="h1" variant="h5">

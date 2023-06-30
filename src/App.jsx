@@ -10,6 +10,7 @@ import { Signup } from "./pages/Signup/Signup";
 import { Login } from "./pages/Login/Login";
 import { AddStudent } from "./pages/AddStudent/AddStudent";
 import { Notification } from "./components/UI/Notification/Notification";
+import { Students } from "./pages/Students/Students";
 import { hideCardNotification } from "./store/actions/notification";
 
 function App() {
@@ -128,6 +129,21 @@ function App() {
             />
           )}
           <AddStudent />
+        </div>
+      ),
+    },
+    {
+      path: "/students",
+      element: (
+        <div>
+          {notification.showCardNotification && (
+            <Notification
+              type={notification.cardNotificationType}
+              message={notification.cardMessage}
+              onClose={closeCardHandler}
+            />
+          )}
+          <Students />
         </div>
       ),
     },

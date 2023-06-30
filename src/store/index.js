@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./reducers/auth";
 import notificationSlice from "./reducers/notification";
-import studentSlice from "./reducers/notification";
+import studentSlice from "./reducers/student";
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     notification: notificationSlice.reducer,
-    notification: studentSlice.reducer,
+    student: studentSlice.reducer,
   },
 });
 

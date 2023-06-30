@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const theInitialState = {
   students: [],
+  student: {},
 };
 export const studentSlice = createSlice({
   name: "student",
@@ -12,6 +13,9 @@ export const studentSlice = createSlice({
     },
     addStudent(state, action) {
       state.students = state.students.push(action.payload.student);
+    },
+    updateStudent(state, action) {
+      state.student = action.payload.student;
     },
   },
 });
