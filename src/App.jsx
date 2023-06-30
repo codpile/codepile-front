@@ -118,6 +118,10 @@ function App() {
       element: <Predict />,
     },
     {
+      path: "/predict/studentId",
+      element: <Predict />,
+    },
+    {
       path: "/add-student",
       element: (
         <div>

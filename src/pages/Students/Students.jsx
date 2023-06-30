@@ -20,7 +20,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { useSelector, useDispatch } from "react-redux";
 import "./Students.scss";
 import { getAllStudentsByUser } from "../../store/actions/student";
-import { useNavigate } from "react-router-dom";
+import { StudentCard } from "../../components/UI/StudentCard/StudentCard";
 
 export const Students = () => {
   //   const [students, setStudents] = useState([]);
@@ -53,7 +53,7 @@ export const Students = () => {
 
   return (
     <Fragment>
-      <MasterLayout>
+      <MasterLayout title="Students">
         <Box
           sx={{
             marginTop: 0,
@@ -62,13 +62,30 @@ export const Students = () => {
             alignItems: "center",
             paddingTop: 8,
             minHeight: "70vh",
-            maxWidth: "280px",
+            // maxWidth: "280px",
           }}
         >
           <Typography component="h1" variant="h5">
             Students
           </Typography>
-          <Box>Loop over students here</Box>
+          <Grid
+            container
+            spacing={4}
+            style={{
+              marginTop: "8px",
+            }}
+          >
+            {students.map((student) => {
+              return (
+                <StudentCard
+                  imageUrl={student.imageUrl}
+                  studentId={student.studentId}
+                  firstName={student.firstName}
+                  lastName={student.lastName}
+                />
+              );
+            })}
+          </Grid>
         </Box>
       </MasterLayout>
     </Fragment>
