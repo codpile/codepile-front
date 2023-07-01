@@ -32,7 +32,7 @@ export const mainListItems = (
       <ListItemIcon>
         <OnlinePredictionOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="my-profile" className="sidebar-link">
+      <Link to="/predict" className="sidebar-link">
         Predict
       </Link>
     </ListItemButton>
@@ -48,7 +48,7 @@ export const mainListItems = (
       <ListItemIcon>
         <HistoryOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="change-password" className="sidebar-link">
+      <Link to="activity" className="sidebar-link">
         Activity
       </Link>
     </ListItemButton>

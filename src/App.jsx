@@ -11,6 +11,7 @@ import { Login } from "./pages/Login/Login";
 import { AddStudent } from "./pages/AddStudent/AddStudent";
 import { Notification } from "./components/UI/Notification/Notification";
 import { Students } from "./pages/Students/Students";
+import { PredictStudentMark } from "./pages/PredictStudentMark/PredictStudentMark";
 import { hideCardNotification } from "./store/actions/notification";
 
 function App() {
@@ -115,11 +116,22 @@ function App() {
     },
     {
       path: "/predict",
-      element: <Predict />,
+      element: (
+        <div>
+          {notification.showCardNotification && (
+            <Notification
+              type={notification.cardNotificationType}
+              message={notification.cardMessage}
+              onClose={closeCardHandler}
+            />
+          )}
+          <PredictStudentMark />
+        </div>
+      ),
     },
     {
       path: "/predict/studentId",
-      element: <Predict />,
+      element: <PredictStudentMark />,
     },
     {
       path: "/add-student",
