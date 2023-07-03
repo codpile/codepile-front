@@ -81,10 +81,26 @@ export const PredictStudentMark = () => {
     }
     const subjectId = getSubjectId(subjects, formData.subject);
 
-    setFormData({ ...formData, predictedById: auth.user.userId });
-    setFormData({ ...formData, studentId: student.studentId });
-    setFormData({ ...formData, subjectId: subjectId });
-    setFormData({ ...formData, token: auth.token });
+    // setFormData({ ...formData, predictedById: auth.user.userId });
+    // setFormData({ ...formData, studentId: student.studentId });
+    // setFormData({ ...formData, subjectId: subjectId });
+    // setFormData({ ...formData, token: auth.token });
+    formData.subjectId = subjectId;
+    formData.predictedById = auth.user.userId;
+    formData.studentId = student.studentId;
+    formData.token = auth.token;
+
+    if (
+      !formData.subjectId ||
+      !formData.predictedById ||
+      !formData.studentId ||
+      !formData.previousExamMark ||
+      !formData.attendance
+    ) {
+      console.log("formData");
+      console.log(formData);
+      return;
+    }
     try {
       setIsLoading(true);
       await dispatch(makePrediction(formData));

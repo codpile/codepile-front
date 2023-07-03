@@ -4,6 +4,7 @@ import { predictionActions } from "..";
 
 export const makePrediction = ({
   subjectId,
+  studentId,
   predictedById,
   previousExamMark,
   attendance,
@@ -14,6 +15,7 @@ export const makePrediction = ({
       method: "POST",
       body: JSON.stringify({
         subjectId,
+        studentId,
         predictedById,
         previousExamMark,
         attendance,
@@ -49,6 +51,8 @@ export const makePrediction = ({
       dispatch(notificationActions.hideCardNotification());
     }, [5000]);
     // update prediction in store
+    console.log("data");
+    console.log(data);
     await dispatch(
       predictionActions.updatePrediction({
         predictionResults: data.data,
