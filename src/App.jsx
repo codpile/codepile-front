@@ -1,6 +1,4 @@
 import React, { Fragment, useEffect } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import { authenticate } from "./store/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.scss";
@@ -13,6 +11,7 @@ import { Notification } from "./components/UI/Notification/Notification";
 import { Students } from "./pages/Students/Students";
 import { PredictStudentMark } from "./pages/PredictStudentMark/PredictStudentMark";
 import { hideCardNotification } from "./store/actions/notification";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -56,123 +55,82 @@ function App() {
     tryLogin();
   }, [dispatch]);
 
-  const openRouter = createBrowserRouter([
-    {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/home",
-      element: <Home />,
-    },
-    {
-      path: "/signup",
-      element: (
-        <div>
-          {notification.showCardNotification && (
-            <Notification
-              type={notification.cardNotificationType}
-              message={notification.cardMessage}
-              onClose={closeCardHandler}
-            />
-          )}
-          <Signup />
-        </div>
-      ),
-    },
-    {
-      path: "/login",
-      element: (
-        <div>
-          {notification.showCardNotification && (
-            <Notification
-              type={notification.cardNotificationType}
-              message={notification.cardMessage}
-              onClose={closeCardHandler}
-            />
-          )}
-          <Login />
-        </div>
-      ),
-    },
-    {
-      path: "/register",
-      element: <Navigate to="/signup" />,
-    },
-    {
-      path: "/signin",
-      element: <Navigate to="/login" />,
-    },
-    {
-      path: "*",
-      element: <Navigate to="/" />,
-    },
-  ]);
-
-  const closedRouter = createBrowserRouter([
-    {
-      path: "/",
-      element: <Predict />,
-    },
-    {
-      path: "/predict",
-      element: (
-        <div>
-          {notification.showCardNotification && (
-            <Notification
-              type={notification.cardNotificationType}
-              message={notification.cardMessage}
-              onClose={closeCardHandler}
-            />
-          )}
-          <PredictStudentMark />
-        </div>
-      ),
-    },
-    {
-      path: "/predict/studentId",
-      element: <PredictStudentMark />,
-    },
-    {
-      path: "/add-student",
-      element: (
-        <div>
-          {notification.showCardNotification && (
-            <Notification
-              type={notification.cardNotificationType}
-              message={notification.cardMessage}
-              onClose={closeCardHandler}
-            />
-          )}
-          <AddStudent />
-        </div>
-      ),
-    },
-    {
-      path: "/students",
-      element: (
-        <div>
-          {notification.showCardNotification && (
-            <Notification
-              type={notification.cardNotificationType}
-              message={notification.cardMessage}
-              onClose={closeCardHandler}
-            />
-          )}
-          <Students />
-        </div>
-      ),
-    },
-    // {
-    //   path: "*",
-    //   element: <Navigate to="/predict" />,
-    // },
-  ]);
-
   return (
     <Fragment>
-      {!isLoggedIn && <RouterProvider router={openRouter} />}
-      {isLoggedIn && <RouterProvider router={closedRouter} />}
+      <div className="app">
+        <BrowserRouter>
+          {!isLoggedIn && (
+            <Routes>
+              <Fragment>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route
+                  path="signup"
+                  element={
+                    <div>
+                      {notification.showCardNotification && (
+                        <Notification
+                          type={notification.cardNotificationType}
+                          message={notification.cardMessage}
+                          onClose={closeCardHandler}
+                        />
+                      )}
+                      <Signup />
+                    </div>
+                  }
+                />
+                <Route
+                  path="login"
+                  element={
+                    <div>
+                      {notification.showCardNotification && (
+                        <Notification
+                          type={notification.cardNotificationType}
+                          message={notification.cardMessage}
+                          onClose={closeCardHandler}
+                        />
+                      )}
+                      <Login />
+                    </div>
+                  }
+                />
+                <Route
+                  path="register"
+                  element={<Navigate to="/signup" replace />}
+                />
+                <Route
+                  path="signin"
+                  element={<Navigate to="/login" replace />}
+                />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Fragment>
+            </Routes>
+          )}
+
+          {isLoggedIn && (
+            <Fragment>
+              {notification.showCardNotification && (
+                <Notification
+                  type={notification.cardNotificationType}
+                  message={notification.cardMessage}
+                  onClose={closeCardHandler}
+                />
+              )}
+              <Routes>
+                <Route path="/" element={<Predict />} />
+                <Route path="predict" element={<Students />} />
+                <Route path="add-student" element={<AddStudent />} />
+                <Route path="students" element={<Students />} />
+                <Route
+                  path="predict/:studentId"
+                  element={<PredictStudentMark />}
+                />
+                <Route path="*" element={<Navigate to="/predict" replace />} />
+              </Routes>
+            </Fragment>
+          )}
+        </BrowserRouter>
+      </div>
     </Fragment>
   );
 }

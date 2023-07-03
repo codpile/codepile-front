@@ -24,7 +24,7 @@ export const mainListItems = (
       <ListItemIcon>
         <PersonAddOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="add-student" className="sidebar-link">
+      <Link to="/add-student" className="sidebar-link">
         Add student
       </Link>
     </ListItemButton>
@@ -48,7 +48,7 @@ export const mainListItems = (
       <ListItemIcon>
         <HistoryOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="activity" className="sidebar-link">
+      <Link to="/activity" className="sidebar-link">
         Activity
       </Link>
     </ListItemButton>
@@ -68,7 +68,7 @@ export const secondaryListItems = (
       <ListItemIcon>
         <NotificationsNoneOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="members" className="sidebar-link">
+      <Link to="/notifications" className="sidebar-link">
         Notification
       </Link>
     </ListItemButton>
@@ -76,7 +76,7 @@ export const secondaryListItems = (
       <ListItemIcon>
         <LogoutOutlinedIcon className="sidebar-icon" />
       </ListItemIcon>
-      <Link to="update-member" className="sidebar-link">
+      <Link to="/" className="sidebar-link">
         Log out
       </Link>
     </ListItemButton>
