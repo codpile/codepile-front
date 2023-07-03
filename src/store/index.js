@@ -3,6 +3,7 @@ import authSlice from "./reducers/auth";
 import notificationSlice from "./reducers/notification";
 import studentSlice from "./reducers/student";
 import predictionSlice from "./reducers/prediction";
+import subjectSlice from "./reducers/subject";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     notification: notificationSlice.reducer,
     student: studentSlice.reducer,
     prediction: predictionSlice.reducer,
+    subject: subjectSlice.reducer,
   },
 });
 
@@ -26,3 +28,4 @@ export const authActions = authSlice.actions;
 export const notificationActions = notificationSlice.actions;
 export const studentActions = studentSlice.actions;
 export const predictionActions = predictionSlice.actions;
+export const subjectActions = subjectSlice.actions;

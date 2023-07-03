@@ -51,7 +51,7 @@ export const makePrediction = ({
     // update prediction in store
     await dispatch(
       predictionActions.updatePrediction({
-        predictionResults: data.results,
+        predictionResults: data.data,
       })
     );
   };

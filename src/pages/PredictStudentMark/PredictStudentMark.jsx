@@ -22,7 +22,6 @@ import IconButton from "@mui/material/IconButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import "./PredictStudentMark.scss";
-import { addStudent } from "../../store/actions/student";
 import { useNavigate } from "react-router-dom";
 import { makePrediction } from "../../store/actions/prediction";
 
@@ -39,6 +38,7 @@ export const PredictStudentMark = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const student = useSelector((state) => state.student.student);
+  const subjects = useSelector((state) => state.subject.subjects);
 
   const validate = () => {
     let errors = {};
@@ -62,6 +62,16 @@ export const PredictStudentMark = () => {
     });
   };
 
+  const getSubjectId = (subjects, subjectName) => {
+    let subjectId;
+    subjects.map((subject) => {
+      if (subjectName === subject.subjectName) {
+        subjectId = subject.subjectId;
+      }
+    });
+    return subjectId;
+  };
+
   // validating  error here
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,10 +80,12 @@ export const PredictStudentMark = () => {
       setErrors(validationErrors);
       return;
     }
+    const subjectId = getSubjectId(subjects, formData.subject);
+
     formData.predictedById = auth.user.userId;
     formData.studentId = student.studentId;
+    formData.subjectId = subjectId;
     formData.token = auth.token;
-
     try {
       setIsLoading(true);
       await dispatch(makePrediction(formData));

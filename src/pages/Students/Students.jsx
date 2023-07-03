@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Students.scss";
 import { getAllStudentsByUser } from "../../store/actions/student";
 import { StudentCard } from "../../components/UI/StudentCard/StudentCard";
+import { getAllSubjects } from "../../store/actions/subject";
 
 export const Students = () => {
   //   const [students, setStudents] = useState([]);
@@ -45,6 +46,22 @@ export const Students = () => {
       }
     };
     getStudentsHandler();
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("In the useEffect getting all subjects");
+    const getSubjectsHandler = async () => {
+      const token = auth.token;
+      try {
+        setIsLoading(true);
+        await dispatch(getAllSubjects(token));
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+    getSubjectsHandler();
   }, [dispatch]);
 
   const students = useSelector((state) => state.student.students);
