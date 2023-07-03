@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import { logOut } from "../../../store/actions/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -42,6 +42,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Header = (props) => {
+  const user = useSelector((state) => state.auth.user);
   const open = useOpenSidebar();
   const toggleSidebar = useToggleSidebar();
 
@@ -98,7 +99,7 @@ const Header = (props) => {
           {/* To change the to power icon */}
           {isMediumScreen && (
             <Typography style={{ marginLeft: "4px" }}>
-              {"Test"} {"User"}
+              {user.userName}
             </Typography>
           )}
         </IconButton>

@@ -64,7 +64,7 @@ export const updateStudent = (studentObj) => {
   localStorage.setItem("student", JSON.stringify(studentObj));
 
   return async (dispatch) => {
-    await dispatch(studentActions.updateStudent(studentObj));
+    await dispatch(studentActions.updateStudent({ student: studentObj }));
   };
 };
 

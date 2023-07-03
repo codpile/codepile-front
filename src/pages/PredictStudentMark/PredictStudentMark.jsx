@@ -17,19 +17,20 @@ import Alert from "@mui/material/Alert";
 import { Card, CardContent, CardActions } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import IconButton from "@mui/material/IconButton";
+
 import { useSelector, useDispatch } from "react-redux";
 import "./PredictStudentMark.scss";
 import { addStudent } from "../../store/actions/student";
 import { useNavigate } from "react-router-dom";
+import { makePrediction } from "../../store/actions/prediction";
 
 export const PredictStudentMark = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "",
-    age: "",
-    district: "",
-    region: "",
+    subject: "",
+    previousExamMark: "",
+    attendance: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -37,38 +38,27 @@ export const PredictStudentMark = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const student = useSelector((state) => state.student.student);
 
   const validate = () => {
     let errors = {};
-    if (!formData.firstName.trim()) {
-      errors.firstName = "firstname is required";
+    if (!formData.subject.trim()) {
+      errors.subject = "Subject is required";
     }
-    if (!formData.lastName.trim()) {
-      errors.lastName = "lastname is required";
+    if (!formData.previousExamMark.trim()) {
+      errors.previousExamMark = "Previous Exam is required";
     }
-    if (!formData.gender.trim()) {
-      errors.lastName = "gender is required";
-    }
-    if (!formData.age.trim()) {
-      errors.age = "age is required";
-    }
-    if (!formData.district.trim()) {
-      errors.district = "district is required";
-    }
-    if (!formData.region.trim()) {
-      errors.region = "region is required";
+    if (!formData.attendance.trim()) {
+      errors.attendance = "Attendance is required";
     }
     return errors;
   };
 
   const clearFormData = () => {
     setFormData({
-      firstName: "",
-      lastName: "",
-      gender: "",
-      age: "",
-      district: "",
-      region: "",
+      subject: "",
+      previousExamMark: "",
+      attendance: "",
     });
   };
 
@@ -80,12 +70,13 @@ export const PredictStudentMark = () => {
       setErrors(validationErrors);
       return;
     }
-    formData.addedById = auth.user.userId;
+    formData.predictedById = auth.user.userId;
+    formData.studentId = student.studentId;
     formData.token = auth.token;
 
     try {
       setIsLoading(true);
-      await dispatch(addStudent(formData));
+      await dispatch(makePrediction(formData));
       setIsLoading(false);
       clearFormData();
     } catch (error) {
@@ -113,9 +104,19 @@ export const PredictStudentMark = () => {
             maxWidth: "280px",
           }}
         >
-          {/* <Typography component="h1" variant="h5">
-            Predict students Performance
-          </Typography> */}
+          <IconButton color="inherit">
+            <AccountCircleIcon
+              style={{
+                width: "40px",
+                height: "40px",
+                color: "#868e96",
+              }}
+            />
+            <Typography style={{ marginLeft: "4px" }}>
+              {student.firstName} {student.lastName}
+            </Typography>
+          </IconButton>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -126,45 +127,45 @@ export const PredictStudentMark = () => {
               margin="normal"
               required
               fullWidth
-              id="lastName"
+              id="subject"
               label="Subject"
-              name="lastName"
-              autoComplete="lastName"
+              name="subject"
+              autoComplete="subject"
               autoFocus
               onChange={handleChange}
             />
-            {errors.lastName && (
-              <Alert severity="error">{errors.lastName}</Alert>
-            )}
+            {errors.subject && <Alert severity="error">{errors.subject}</Alert>}
 
             <TextField
               margin="normal"
               required
               fullWidth
-              id="lastName"
+              id="previousExamMark"
               label="Previous Mark"
-              name="lastName"
-              autoComplete="lastName"
+              name="previousExamMark"
+              autoComplete="previousExamMark"
               autoFocus
               onChange={handleChange}
             />
-            {errors.lastName && (
-              <Alert severity="error">{errors.lastName}</Alert>
+            {errors.previousExamMark && (
+              <Alert severity="error">{errors.previousExamMark}</Alert>
             )}
 
             <TextField
               margin="normal"
               required
               fullWidth
-              id="gender"
+              id="attendance"
               label="Attendance Percentage"
-              name="gender"
-              autoComplete="gender"
+              name="attendance"
+              autoComplete="attendance"
               autoFocus
               placeholder="80 "
               onChange={handleChange}
             />
-            {errors.gender && <Alert severity="error">{errors.gender}</Alert>}
+            {errors.attendance && (
+              <Alert severity="error">{errors.attendance}</Alert>
+            )}
 
             <Button
               type="submit"
