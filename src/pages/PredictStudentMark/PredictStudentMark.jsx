@@ -72,7 +72,6 @@ export const PredictStudentMark = () => {
     return subjectId;
   };
 
-  // validating  error here
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -82,10 +81,10 @@ export const PredictStudentMark = () => {
     }
     const subjectId = getSubjectId(subjects, formData.subject);
 
-    formData.predictedById = auth.user.userId;
-    formData.studentId = student.studentId;
-    formData.subjectId = subjectId;
-    formData.token = auth.token;
+    setFormData({ ...formData, predictedById: auth.user.userId });
+    setFormData({ ...formData, studentId: student.studentId });
+    setFormData({ ...formData, subjectId: subjectId });
+    setFormData({ ...formData, token: auth.token });
     try {
       setIsLoading(true);
       await dispatch(makePrediction(formData));
