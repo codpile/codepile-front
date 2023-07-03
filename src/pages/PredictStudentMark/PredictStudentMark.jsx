@@ -14,11 +14,16 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import { Card, CardContent, CardActions } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 import { useSelector, useDispatch } from "react-redux";
 import "./PredictStudentMark.scss";
@@ -32,6 +37,7 @@ export const PredictStudentMark = () => {
     attendance: "",
   });
 
+  const [showRemark, setShowRemark] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   let navigate = useNavigate();
@@ -102,9 +108,11 @@ export const PredictStudentMark = () => {
       return;
     }
     try {
+      setShowRemark(false);
       setIsLoading(true);
       await dispatch(makePrediction(formData));
       setIsLoading(false);
+      setShowRemark(true);
       clearFormData();
     } catch (error) {
       setIsLoading(false);
@@ -116,6 +124,10 @@ export const PredictStudentMark = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
+
+  const predictionResults = useSelector(
+    (state) => state.prediction.predictionResults
+  );
 
   return (
     <Fragment>
@@ -143,14 +155,42 @@ export const PredictStudentMark = () => {
               {student.firstName} {student.lastName}
             </Typography>
           </IconButton>
-
+          {showRemark && (
+            <Card
+              sx={{
+                maxWidth: "280px",
+              }}
+            >
+              <Alert
+                severity="info"
+                sx={{
+                  width: "100%",
+                }}
+                onClose={() => {
+                  setShowRemark(false);
+                }}
+              >
+                <AlertTitle>Remark</AlertTitle>
+                <Typography
+                  style={{
+                    marginBottom: "4px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Predicted Exam score: {predictionResults.predictedMark}
+                </Typography>
+                {predictionResults.remark}
+              </Alert>
+            </Card>
+          )}
           <Box
             component="form"
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1, fontSize: 16 }}
           >
-            <TextField
+            {/* <TextField
               margin="normal"
               required
               fullWidth
@@ -160,7 +200,25 @@ export const PredictStudentMark = () => {
               autoComplete="subject"
               autoFocus
               onChange={handleChange}
-            />
+            /> */}
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Subject</InputLabel>
+              <Select
+                labelId="subject"
+                id="subject"
+                value={formData.subject}
+                label="subject"
+                onChange={handleChange}
+              >
+                {subjects.map((subject) => {
+                  return (
+                    <MenuItem value={formData.subject}>
+                      {subject.subjectName}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
             {errors.subject && <Alert severity="error">{errors.subject}</Alert>}
 
             <TextField
@@ -172,6 +230,7 @@ export const PredictStudentMark = () => {
               name="previousExamMark"
               autoComplete="previousExamMark"
               autoFocus
+              text="number"
               onChange={handleChange}
             />
             {errors.previousExamMark && (
