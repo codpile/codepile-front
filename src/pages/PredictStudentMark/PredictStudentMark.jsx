@@ -37,6 +37,8 @@ export const PredictStudentMark = () => {
     attendance: "",
   });
 
+  const [selectedSubject, setSelectedSubject] = useState("");
+
   const [showRemark, setShowRemark] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -45,15 +47,21 @@ export const PredictStudentMark = () => {
   const auth = useSelector((state) => state.auth);
   const student = useSelector((state) => state.student.student);
   const subjects = useSelector((state) => state.subject.subjects);
+  console.log("subjects");
+  console.log(subjects);
+
+  const handleSelectedSubject = (event) => {
+    setSelectedSubject(event.target.value);
+  };
 
   const validate = () => {
     let errors = {};
     if (!formData.subject.trim()) {
       errors.subject = "Subject is required";
     }
-    if (!formData.previousExamMark.trim()) {
-      errors.previousExamMark = "Previous Exam is required";
-    }
+    // if (!formData.previousExamMark.trim()) {
+    //   errors.previousExamMark = "Previous Exam is required";
+    // }
     if (!formData.attendance.trim()) {
       errors.attendance = "Attendance is required";
     }
@@ -100,7 +108,6 @@ export const PredictStudentMark = () => {
       !formData.subjectId ||
       !formData.predictedById ||
       !formData.studentId ||
-      !formData.previousExamMark ||
       !formData.attendance
     ) {
       console.log("formData");
@@ -170,7 +177,7 @@ export const PredictStudentMark = () => {
                   setShowRemark(false);
                 }}
               >
-                <AlertTitle>Remark</AlertTitle>
+                <AlertTitle>Results</AlertTitle>
                 <Typography
                   style={{
                     marginBottom: "4px",
@@ -178,9 +185,8 @@ export const PredictStudentMark = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  Predicted Exam score: {predictionResults.predictedMark}
+                  Predicted Exam score: {predictionResults.predicted_mark}
                 </Typography>
-                {predictionResults.remark}
               </Alert>
             </Card>
           )}
@@ -190,53 +196,21 @@ export const PredictStudentMark = () => {
             noValidate
             sx={{ mt: 1, fontSize: 16 }}
           >
-            {/* <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="subject"
-              label="Subject"
-              name="subject"
-              autoComplete="subject"
-              autoFocus
-              onChange={handleChange}
-            /> */}
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Subject</InputLabel>
-              <Select
-                labelId="subject"
-                id="subject"
-                value={formData.subject}
-                label="subject"
-                onChange={handleChange}
-              >
-                {subjects.map((subject) => {
-                  return (
-                    <MenuItem value={formData.subject}>
-                      {subject.subjectName}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-            {errors.subject && <Alert severity="error">{errors.subject}</Alert>}
-
             <TextField
               margin="normal"
               required
               fullWidth
-              id="previousExamMark"
-              label="Previous Mark"
-              name="previousExamMark"
-              autoComplete="previousExamMark"
+              id="subject"
+              label="subject"
+              name="subject"
+              autoComplete="subject"
               autoFocus
-              text="number"
+              placeholder="subject"
               onChange={handleChange}
             />
-            {errors.previousExamMark && (
-              <Alert severity="error">{errors.previousExamMark}</Alert>
+            {errors.attendance && (
+              <Alert severity="error">{errors.subject}</Alert>
             )}
-
             <TextField
               margin="normal"
               required
@@ -246,7 +220,7 @@ export const PredictStudentMark = () => {
               name="attendance"
               autoComplete="attendance"
               autoFocus
-              placeholder="80 "
+              placeholder="80"
               onChange={handleChange}
             />
             {errors.attendance && (

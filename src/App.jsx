@@ -62,8 +62,38 @@ function App() {
           {!isLoggedIn && (
             <Routes>
               <Fragment>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
+                <Route
+                  path="/"
+                  element={
+                    <div>
+                      {notification.showCardNotification && (
+                        <Notification
+                          type={notification.cardNotificationType}
+                          message={notification.cardMessage}
+                          onClose={closeCardHandler}
+                        />
+                      )}
+                      <Login />
+                    </div>
+                  }
+                />
+                {/* <Route path="/home" element={<Home />} /> */}
+                <Route
+                  path="home"
+                  element={
+                    <div>
+                      {notification.showCardNotification && (
+                        <Notification
+                          type={notification.cardNotificationType}
+                          message={notification.cardMessage}
+                          onClose={closeCardHandler}
+                        />
+                      )}
+                      <Login />
+                    </div>
+                  }
+                />
                 <Route
                   path="signup"
                   element={
