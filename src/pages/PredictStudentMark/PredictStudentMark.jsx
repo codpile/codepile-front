@@ -95,10 +95,6 @@ export const PredictStudentMark = () => {
     }
     const subjectId = getSubjectId(subjects, formData.subject);
 
-    // setFormData({ ...formData, predictedById: auth.user.userId });
-    // setFormData({ ...formData, studentId: student.studentId });
-    // setFormData({ ...formData, subjectId: subjectId });
-    // setFormData({ ...formData, token: auth.token });
     formData.subjectId = subjectId;
     formData.predictedById = auth.user.userId;
     formData.studentId = student.studentId;
